@@ -46,11 +46,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#我忽略的文件
+# 沈鸿飞忽略的文件
 .idea
 bak
-out
+production
 file
+lib
 网站1.2
 槐盟.iml
 .gitignore
