@@ -1,30 +1,26 @@
-<%--@elvariable id="user" type="model.User"--%>
-<%@ page contentType = "text/html;charset=UTF-8" language = "java" %>
+<!--suppress HtmlUnknownTarget -->
 <html>
   <head>
+      <meta charset="UTF-8"/>
     <title>API Test</title>
   </head>
   <body>
     <h1>API Test</h1><br><br><br><br>
-    <h1>用户模块</h1>
-    <h2>当前用户：${user.username}  （变化后刷新更改）</h2>
+    
+    <h1>UEditor</h1>
+    <script src="ueditor/ueditor.config.js"></script>
+    <script src="ueditor/ueditor.all.js"></script>
+    <script src="ueditor/zh-cn.js"></script>
+    <textarea id="a" style="width: 95%;height: 240px;"></textarea>
+    <script charset="UTF-8">
+        UE.getEditor('a');
+    </script>
 
-    <pre>
-    id:              ${user.id}
-    username:        ${user.username}
-    realname:        ${user.realname}
-    password:        ${user.password}
-    role:            ${user.role}
-    gender:          ${user.gender}
-    birthday:        ${user.birthday}
-    registerTime:    ${user.registerTime}
-    email:           ${user.email}
-    address:         ${user.address}
-    phoneNumber:     ${user.phoneNumber}
-    cookieId:        ${user.cookieId}
-    lastIp:          ${user.lastIp}
-    autologin:       ${user.autologin}
-    </pre>
+    
+    <br><br><hr>
+    <h1>用户模块</h1>
+    <h2>查看当前用户信息</h2>
+    <a href="user">user</a>
 
 
 
@@ -38,7 +34,7 @@
     <h2>用户注册</h2>
     <h2>POST user/register</h2>
     <p>user/verificationCode.jpg?category=register<img src="user/verificationCode.jpg?category=register"/> </p>
-    <form action="user/register" method="post" target="_blank">
+    <form action="user/register" method="post">
       <label>*username：<input name="username"></label><br>
       <label>realname：<input name="realname"></label><br>
       <label>*password：<input name="password"></label><br>
@@ -54,7 +50,7 @@
       <label>phoneNumber：<input name="phoneNumber"></label><br>
 
       <label>verificationCode：<input name="verificationCode"></label><br>
-      <input type="submit" value="action='user/register' method='post' target='_blank'">
+      <input type="submit" value="action='user/register' method='post'">
     </form><br><br>
     <pre>
       除了JSON还新增id,username,role三个Cookie,会话期间有效
@@ -65,12 +61,12 @@
     <h2>用户登录</h2>
     <h2>POST user/login</h2>
     <p>user/verificationCode.jpg?category=login<img src="user/verificationCode.jpg?category=login"/> </p>
-    <form action="user/login" method="post" target="_blank">
+    <form action="user/login" method="post">
       <label>username：<input name="username"></label><br>
       <label>password：<input name="password"></label><br>
       <label>verificationCode：<input name="verificationCode"></label><br>
       <label>autologin：<input type="checkbox" name="autologin"></label><br>
-      <input type="submit" value="action='user/login' method='post' target='_blank'">
+      <input type="submit" value="action='user/login' method='post'">
     </form><br><br>
     <pre>
       除了JSON还新增id,username,role三个Cookie,会话期间有效
@@ -83,10 +79,10 @@
     <h2>用户信息更新</h2>
     <h2>POST user/update</h2>
     <p>user/verificationCode.jpg?category=update<img src="user/verificationCode.jpg?category=update"/> </p>
-    <form action="user/update" method="post" target="_blank">
-      <label>*username：<input name="username" value="${user.username}"></label><br>
-      <label>realname：<input name="realname" value="${user.realname}"></label><br>
-      <label>*password：<input name="password" value="${user.password}"></label><br>
+    <form action="user/update" method="post">
+      <label>*username：<input name="username" value=""></label><br>
+      <label>realname：<input name="realname" value=""></label><br>
+      <label>*password：<input name="password" value=""></label><br>
       <label>*oldPassword：<input name="oldPassword"></label><br>
       <label>gender：
         <select name="gender">
@@ -94,13 +90,13 @@
           <option value="F">F</option>
         </select>
       </label><br>
-      <label>birthday：<input name="birthday" type="date" value="${user.birthday}"></label><br>
-      <label>email：<input name="email" value="${user.email}"></label><br>
-      <label>address：<input name="address" value="${user.address}"></label><br>
-      <label>phoneNumber：<input name="phoneNumber" value="${user.phoneNumber}"></label><br>
+      <label>birthday：<input name="birthday" type="date" value=""></label><br>
+      <label>email：<input name="email" value=""></label><br>
+      <label>address：<input name="address" value=""></label><br>
+      <label>phoneNumber：<input name="phoneNumber" value=""></label><br>
 
       <label>verificationCode：<input name="verificationCode"></label><br>
-      <input type="submit" value="action='user/update' method='post' target='_blank'">
+      <input type="submit" value="action='user/update' method='post'">
     </form><br><br>
     <pre>
       除了JSON还修改id,username,role三个Cookie,会话期间有效
@@ -108,7 +104,7 @@
 
     <br><br><hr>
     <h2>注销</h2>
-    <h2><a href="user/logout" target="_blank">user/logout</a></h2>
+    <h2><a href="user/logout">user/logout</a></h2>
     <pre>
       除了JSON还修改id,username,role三个Cookie(访客身份(id=0,username=Guest,role=GUEST)),会话期间有效
     </pre>
@@ -116,7 +112,7 @@
     <br><br><hr>
     <h2>管理用户（分页查询）</h2>
     <h2>GET user/manage?size={页面大小}&page={页数}&sort={属性,升序/降序}</h2>
-    <h2><a href="user/manage?size=2&page=0&sort=id,desc" target="_blank">GET user/manage?size=2&page=0&sort=id,desc</a></h2>
+    <h2><a href="user/manage?size=2&page=0&sort=id,desc">GET user/manage?size=2&page=0&sort=id,desc</a></h2>
     <pre>
       所有属性均能排序
       {页面大小} 中的大括号不需要输入，下同
@@ -182,7 +178,7 @@
     <br><br><hr>
     <h2>查看用户</h2>
     <h2>GET user/manage/get?id={id}</h2>
-    <h2><a href="user/manage/get?id=1" target="_blank">GET user/manage/get?id=1</a></h2>
+    <h2><a href="user/manage/get?id=1">GET user/manage/get?id=1</a></h2>
     <pre>
       {
         "result": true,
@@ -208,7 +204,7 @@
     <br><br><hr>
     <h2>修改用户信息（被修改用户需重新登录才生效）</h2>
     <h2>POST user/manage/update?id={id}</h2>
-    <form action="user/manage/update?id=1" method="post" target="_blank">
+    <form action="user/manage/update?id=1" method="post">
       <label>*username：<input name="username"></label><br>
       <label>realname：<input name="realname"></label><br>
       <label>*password：<input name="password"></label><br>
@@ -225,7 +221,7 @@
 
       <label>role：<input name="role"></label><br>
 
-      <input type="submit" value="action='user/update?id=1' method='post' target='_blank'">
+      <input type="submit" value="action='user/update?id=1' method='post'">
     </form><br><br>
     <pre>
       可以修改role属性(USER,VIP,MANAGER,BOSS)
@@ -236,7 +232,7 @@
     <br><br><hr>
     <h2>新增用户</h2>
     <h2>POST user/manage/add</h2>
-    <form action="user/manage/add" method="post" target="_blank">
+    <form action="user/manage/add" method="post">
       <label>*username：<input name="username"></label><br>
       <label>realname：<input name="realname"></label><br>
       <label>*password：<input name="password"></label><br>
@@ -253,7 +249,7 @@
 
       <label>role：<input name="role"></label><br>
 
-      <input type="submit" value="action='user/manage/add' method='post' target='_blank'">
+      <input type="submit" value="action='user/manage/add' method='post'">
     </form>
     <pre>
       可以设置role属性(USER,VIP,MANAGER,BOSS)
@@ -263,10 +259,10 @@
     <br><br><hr>
     <h2>删除用户</h2>
     <h2>POST user/manage/delete</h2>
-    <form action="user/manage/delete" method="post" target="_blank">
+    <form action="user/manage/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='user/manage/delete' target='_blank'">
+        <input type="submit" value="action='user/manage/delete'">
     </form>
 
     <br><br><br><br><br><br><br><br><br><br><br><br>
@@ -282,14 +278,14 @@
     <h2>新增部门</h2>
     <h2>POST department/add</h2>
     <pre>上传图文内容</pre>
-    <form action="department/add" method="post" target="_blank" enctype="multipart/form-data">
+    <form action="department/add" method="post" enctype="multipart/form-data">
       <label>*name：<input name="name"></label><br>
       <label>contentText：<textarea name="contentText"></textarea></label><br>
       <h4>多个文件上传（包括图片）</h4>
       <input type="file" name="file"/>
       <input type="file" name="file"/>
 
-      <input type="submit" value="action='department/add' method='post' target='_blank'">
+      <input type="submit" value="action='department/add' method='post'">
     </form><br><br>
     <pre>
       返回：
@@ -317,7 +313,7 @@
     <br><br><hr/>
     <h2>部门列表</h2>
     <h2>GET department</h2>
-    <h2><a href="department" target="_blank">GET department</a></h2>
+    <h2><a href="department">GET department</a></h2>
     <pre>
       返回：
         {
@@ -343,7 +339,7 @@
     <br><br><hr/>
     <h2>部门详情</h2>
     <h2>GET department/{id}</h2>
-    <h2><a href="department/1" target="_blank">GET department/1</a></h2>
+    <h2><a href="department/1">GET department/1</a></h2>
     <pre>
       返回：
       {
@@ -370,10 +366,10 @@
     <br><br><hr>
     <h2>删除部门</h2>
     <h2>POST department/delete</h2>
-    <form action="department/delete" method="post" target="_blank">
+    <form action="department/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='department/delete/delete' target='_blank'">
+        <input type="submit" value="action='department/delete/delete'">
     </form>
 
 
@@ -385,14 +381,14 @@
     <h2>新增项目</h2>
     <h2>POST project/add</h2>
     <pre>上传图文内容</pre>
-    <form action="project/add" method="post" target="_blank" enctype="multipart/form-data">
+    <form action="project/add" method="post" enctype="multipart/form-data">
         <label>*name：<input name="name"></label><br>
         <label>contentText：<textarea name="contentText"></textarea></label><br>
         <h4>多个文件上传（包括图片）</h4>
         <input type="file" name="file"/>
         <input type="file" name="file"/>
 
-        <input type="submit" value="action='project/add' method='post' target='_blank'">
+        <input type="submit" value="action='project/add' method='post'">
     </form><br><br>
     <pre>
       返回：<%--todo: 返回值--%>
@@ -402,7 +398,7 @@
     <br><br><hr/>
     <h2>项目列表</h2>
     <h2>GET project</h2>
-    <h2><a href="project" target="_blank">GET project</a></h2>
+    <h2><a href="project">GET project</a></h2>
     <pre>
       返回：<%--todo: 返回值--%>
         
@@ -411,7 +407,7 @@
     <br><br><hr/>
     <h2>项目详情</h2>
     <h2>GET project/{id}</h2>
-    <h2><a href="project/1" target="_blank">GET project/1</a></h2>
+    <h2><a href="project/1">GET project/1</a></h2>
     <pre>
       返回：
         <%--todo: 返回值--%>
@@ -420,10 +416,10 @@
     <br><br><hr/>
     <h2>删除项目</h2>
     <h2>POST project/delete</h2>
-    <form action="project/delete" method="post" target="_blank">
+    <form action="project/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='project/delete' target='_blank'">
+        <input type="submit" value="action='project/delete'">
     </form>
     
     
@@ -437,7 +433,7 @@
     <h2>新增培训</h2>
     <h2>POST training/add</h2>
     <pre>上传图文内容</pre>
-    <form action="training/add" method="post" target="_blank" enctype="multipart/form-data">
+    <form action="training/add" method="post" enctype="multipart/form-data">
         <label>*name：<input name="name"></label><br>
         <label>*departmentId：<input name="departmentId"></label><br>
         <label>contentText：<textarea name="contentText"></textarea></label><br>
@@ -445,7 +441,7 @@
         <input type="file" name="file"/>
         <input type="file" name="file"/>
 
-        <input type="submit" value="action='training/add' method='post' target='_blank'">
+        <input type="submit" value="action='training/add' method='post'">
     </form><br><br>
     <pre>
       返回：<%--todo: 返回值--%>
@@ -455,7 +451,7 @@
     <br><br><hr/>
     <h2>培训列表</h2>
     <h2>GET training</h2>
-    <h2><a href="training" target="_blank">GET training</a></h2>
+    <h2><a href="training">GET training</a></h2>
     <pre>
       返回：<%--todo: 返回值--%>
         
@@ -464,7 +460,7 @@
     <br><br><hr/>
     <h2>培训详情</h2>
     <h2>GET training/{id}</h2>
-    <h2><a href="training/1" target="_blank">GET training/1</a></h2>
+    <h2><a href="training/1">GET training/1</a></h2>
     <pre>
       返回：
         <%--todo: 返回值--%>
@@ -474,10 +470,10 @@
     <br><br><hr/>
     <h2>删除培训</h2>
     <h2>POST training/delete</h2>
-    <form action="training/delete" method="post" target="_blank">
+    <form action="training/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='training/delete' target='_blank'">
+        <input type="submit" value="action='training/delete'">
     </form>
 
 
@@ -487,7 +483,7 @@
     <h2>新增科普知识</h2>
     <h2>POST knowledge/add</h2>
     <pre>上传图文内容</pre>
-    <form action="knowledge/add" method="post" target="_blank" enctype="multipart/form-data">
+    <form action="knowledge/add" method="post" enctype="multipart/form-data">
         <label>*name：<input name="name"></label><br>
         <label>*category(必须为PROJECT,PUBLIC_WELFARE,SHARE这三者之一)：<input name="category"></label><br>
         <label>projectId(分类为PROJECT必填）：<input name="projectId"></label><br>
@@ -496,7 +492,7 @@
         <input type="file" name="file"/>
         <input type="file" name="file"/>
 
-        <input type="submit" value="action='knowledge/add' method='post' target='_blank'">
+        <input type="submit" value="action='knowledge/add' method='post'">
     </form><br><br>
     <pre>
       返回：<%--todo: 返回值--%>123
@@ -506,7 +502,7 @@
     <br><br><hr/>
     <h2>科普知识列表</h2>
     <h2>GET knowledge</h2>
-    <h2><a href="knowledge" target="_blank">GET knowledge</a></h2>
+    <h2><a href="knowledge">GET knowledge</a></h2>
     <pre>
       返回：<%--todo: 返回值--%>
         
@@ -515,7 +511,7 @@
     <br><br><hr/>
     <h2>科普知识详情</h2>
     <h2>GET knowledge/{id}</h2>
-    <h2><a href="knowledge/1" target="_blank">GET knowledge/1</a></h2>
+    <h2><a href="knowledge/1">GET knowledge/1</a></h2>
     <pre>
       返回：
         <%--todo: 返回值--%>
@@ -525,10 +521,10 @@
     <br><br><hr/>
     <h2>删除科普知识</h2>
     <h2>POST knowledge/delete</h2>
-    <form action="knowledge/delete" method="post" target="_blank">
+    <form action="knowledge/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='knowledge/delete' target='_blank'">
+        <input type="submit" value="action='knowledge/delete'">
     </form>
 
 
@@ -539,7 +535,7 @@
     <h2>新增活动</h2>
     <h2>POST activity/add</h2>
     <pre>上传图文内容</pre>
-    <form action="activity/add" method="post" target="_blank" enctype="multipart/form-data">
+    <form action="activity/add" method="post" enctype="multipart/form-data">
         <label>*name：<input name="name"></label><br>
         <%--<label>runAt（活动时间）：<input name="runAt" type="datetime"></label><br>--%>
         <label>*department（部门）：<input name="departmentId"></label><br>
@@ -548,7 +544,7 @@
         <input type="file" name="file"/>
         <input type="file" name="file"/>
 
-        <input type="submit" value="action='activity/add' method='post' target='_blank'">
+        <input type="submit" value="action='activity/add' method='post'">
     </form><br><br>
     <pre>
       返回：
@@ -558,7 +554,7 @@
     <br><br><hr/>
     <h2>活动列表</h2>
     <h2>GET activity</h2>
-    <h2><a href="activity" target="_blank">GET activity</a></h2>
+    <h2><a href="activity">GET activity</a></h2>
     <pre>
       返回：
 
@@ -567,7 +563,7 @@
     <br><br><hr/>
     <h2>活动详情</h2>
     <h2>GET activity/{id}</h2>
-    <h2><a href="activity/1" target="_blank">GET activity/1</a></h2>
+    <h2><a href="activity/1">GET activity/1</a></h2>
     <pre>
       返回：
 
@@ -576,10 +572,10 @@
     <br><br><hr/>
     <h2>删除活动</h2>
     <h2>POST activity/delete</h2>
-    <form action="activity/delete" method="post" target="_blank">
+    <form action="activity/delete" method="post">
         <label>*id：<input name="id"></label><br>
 
-        <input type="submit" value="action='activity/delete' target='_blank'">
+        <input type="submit" value="action='activity/delete'">
     </form>
     
   <%--todo: 刷新页面--%>

@@ -25,8 +25,8 @@ class SuffixViewResolver extends BeanNameViewResolver{
     View resolveViewName( String viewName,Locale locale ) throws BeansException{
         ApplicationContext context = applicationContext
         switch(viewName.split(/\./)[-1]){
-            case 'jsp': return jspResolver.resolveViewName(viewName,locale)
-            case 'xml': return xml
+            case 'jsp' :case 'html': return jspResolver.resolveViewName(viewName,locale)
+            case 'xml' : return xml
             default: return json
         }
     }
