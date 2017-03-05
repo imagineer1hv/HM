@@ -21,7 +21,7 @@ class HomeSystem{
     @GetMapping(['','/'])
     ModelAndView index( HttpServletRequest req,HttpServletResponse resp ){
         ModelAndView mav=us.autologin(req,resp)
-        mav.view='/API-Test.html'
+        mav.view='/api.html'
         mav
     }
 

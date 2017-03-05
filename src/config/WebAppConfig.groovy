@@ -41,19 +41,23 @@ import javax.sql.DataSource
 @EnableAspectJAutoProxy
 class WebAppConfig extends WebMvcConfigurerAdapter{
 
-    static final File fileRootDir
-    static final File fileTempDir
+    static final File PROJECT_DIR
+    static final File FILE_DIR
+    static final File TMP_DIR
+/*    static final File ueditorConfigFile=new File(WebAppConfig.class.getClassLoader().getResource('ueditor-config.json').toURI())
+    static final Map ueditorConfig=new ObjectMapper().configure(JsonParser.Feature.ALLOW_COMMENTS,true).readValue(ueditorConfigFile,Map.class)*/
 
     static {
         if(System.getProperty('LOCAL')){
-            fileRootDir=new File('D:/槐盟/file')
+            PROJECT_DIR=new File('D:/HM')
         }else{
-            fileRootDir=new File('~/hm/file')
+            PROJECT_DIR=new File('/root/HM')
         }
-        if(!fileRootDir.exists()) fileRootDir.mkdirs()
-        fileTempDir=new File(fileRootDir,'temp')
-        if(!fileTempDir.exists()) fileTempDir.mkdir()
-        
+        if(!PROJECT_DIR.exists()) PROJECT_DIR.mkdir()
+        FILE_DIR=new File(PROJECT_DIR,'file')
+        if(!FILE_DIR.exists()) FILE_DIR.mkdirs()
+        TMP_DIR=new File(FILE_DIR,'tmp')
+        if(!TMP_DIR.exists()) TMP_DIR.mkdir()
     }
 
 //  数据库及事务
@@ -136,11 +140,11 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
     @Bean(name = 'multipartResolver')
     CommonsMultipartResolver getCommonsMultipartResolver(){
         CommonsMultipartResolver r = new CommonsMultipartResolver()
-//        r.fileItemFactory=new DiskFileItemFactory(1024*1024,new File(FileSystem.fileRootDir))
+//        r.fileItemFactory=new DiskFileItemFactory(1024*1024,new File(FileSystem.FILE_DIR))
         r.defaultEncoding='UTF-8'
         r.maxUploadSizePerFile=100*1024*1024
         r.maxUploadSize=100*1024*1024
-        r.uploadTempDir=new FileSystemResource(fileTempDir)
+        r.uploadTempDir=new FileSystemResource(TMP_DIR)
         r.preserveFilename=true
         r
     }
@@ -154,4 +158,7 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
         kaptcha
     }
 
+    static void main(String... args){
+        
+    }
 }

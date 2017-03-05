@@ -59,7 +59,7 @@ class DepartmentSystem{
     delete(@RequestParam('id')Long id){
         if(!repo.exists(id)) return -m<<'部门不存在'
         Department dp = repo.getOne(id)
-        new File(WebAppConfig.fileRootDir,dp.contextPath).deleteDir()
+        new File(WebAppConfig.FILE_DIR,dp.contextPath).deleteDir()
         repo.delete(id)
         m<<'删除成功'
     }

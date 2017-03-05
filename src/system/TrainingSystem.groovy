@@ -64,7 +64,7 @@ class TrainingSystem{
     delete(@RequestParam('id')Long id){
         if(!repo.exists(id)) return -m<<'培训不存在'
         Training tn = repo.getOne(id)
-        new File(WebAppConfig.fileRootDir,tn.contextPath).deleteDir()
+        new File(WebAppConfig.FILE_DIR,tn.contextPath).deleteDir()
         repo.delete(id)
         m<<'删除成功'
     }

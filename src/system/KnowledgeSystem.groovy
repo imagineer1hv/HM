@@ -1,7 +1,6 @@
 package system
 
 import config.WebAppConfig
-import model.Department
 import model.Model
 import model.Knowledge
 import model.Project
@@ -12,7 +11,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.context.annotation.SessionScope
 import org.springframework.web.multipart.MultipartFile
-import repo.DepartmentRepo
 import repo.KnowledgeRepo
 import repo.ProjectRepo
 import service.ContentService
@@ -71,7 +69,7 @@ class KnowledgeSystem{
     delete(@RequestParam('id')Long id){
         if(!repo.exists(id)) return -m<<'知识不存在'
         Knowledge tn = repo.getOne(id)
-        new File(WebAppConfig.fileRootDir,tn.contextPath).deleteDir()
+        new File(WebAppConfig.FILE_DIR,tn.contextPath).deleteDir()
         repo.delete(id)
         m<<'删除成功'
     }

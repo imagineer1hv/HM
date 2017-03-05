@@ -46,7 +46,7 @@ class UserSystem{
     //todo:密码存储加密
     //todo:用户头像
     
-    @GetMapping('user')
+    @GetMapping('/user')
     getUser(){
         m<<user
     }

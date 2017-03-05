@@ -1,7 +1,6 @@
 package system
 
 import config.WebAppConfig
-import model.Department
 import model.Model
 import model.Project
 import org.springframework.beans.factory.annotation.Autowired
@@ -59,7 +58,7 @@ class ProjectSystem{
     delete(@RequestParam('id')Long id){
         if(!repo.exists(id)) return -m<<'项目不存在'
         Project pj = repo.getOne(id)
-        new File(WebAppConfig.fileRootDir,pj.contextPath).deleteDir()
+        new File(WebAppConfig.FILE_DIR,pj.contextPath).deleteDir()
         repo.delete(id)
         m<<'删除成功'
     }

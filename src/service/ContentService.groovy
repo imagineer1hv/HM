@@ -2,7 +2,6 @@ package service
 
 import config.WebAppConfig
 import model.Content
-import model.Department
 import model.ResourceFile
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -17,7 +16,7 @@ class ContentService{
 
     Content create( MultipartFile[] files,String contentText,String contextPath ){
         def resFiles=[]
-        def fileDir=new File(WebAppConfig.fileRootDir,contextPath)
+        def fileDir=new File(WebAppConfig.FILE_DIR,contextPath)
         fileDir.mkdirs()
         files.each{
             def f=new File(fileDir,it.originalFilename.replace(' ','-'))

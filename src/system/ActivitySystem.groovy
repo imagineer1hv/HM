@@ -2,12 +2,10 @@ package system
 
 import config.WebAppConfig
 import model.Activity
-import model.Department
 import model.Model
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -65,7 +63,7 @@ class ActivitySystem{
     delete(@RequestParam('id')Long id){
         if(!repo.exists(id)) return -m<<'活动不存在'
         Activity ac = repo.getOne(id)
-        new File(WebAppConfig.fileRootDir,ac.contextPath).deleteDir()
+        new File(WebAppConfig.FILE_DIR,ac.contextPath).deleteDir()
         repo.delete(id)
         m<<'删除成功'
     }
