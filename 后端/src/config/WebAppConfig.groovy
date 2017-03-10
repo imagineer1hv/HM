@@ -54,7 +54,7 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
             PROJECT_DIR=new File('/root/HM')
         }
         if(!PROJECT_DIR.exists()) PROJECT_DIR.mkdir()
-        FILE_DIR=new File(PROJECT_DIR,'file')
+        FILE_DIR=new File(PROJECT_DIR,'上传文件')
         if(!FILE_DIR.exists()) FILE_DIR.mkdirs()
         TMP_DIR=new File(FILE_DIR,'tmp')
         if(!TMP_DIR.exists()) TMP_DIR.mkdir()
