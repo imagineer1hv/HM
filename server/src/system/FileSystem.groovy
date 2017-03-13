@@ -24,7 +24,7 @@ class FileSystem{
         def mat=uri=~$/.*/file/(.*)/$
         mat.find()
         def p=mat.group(1)
-        File f=new File(WebAppConfig.FILE_DIR,p)
+        File f=new File(FILE_DIR,p)
         if(!f.exists()) return -m<<'文件不存在'
 
 //        resp.addHeader('Content-Disposition',"attachment; filename=${URLEncoder.encode(f.name,'UTF-8')}")
@@ -42,7 +42,7 @@ class FileSystem{
         def mat=uri=~$/.*/file/tmp/(.*)/$
         mat.find()
         def p=mat.group(1)
-        File f=new File(WebAppConfig.TMP_DIR,p)
+        File f=new File(TMP_DIR,p)
         if(!f.exists()) return -m<<'文件不存在'
 
 //        resp.addHeader('Content-Disposition',"attachment; filename=${URLEncoder.encode(f.name,'UTF-8')}")
