@@ -10,12 +10,12 @@ import static model.ModelAndView.DEFAULT_JSON_VIEW_NAME as JSON
 
 
 @ControllerAdvice
-class BindingResultExceptionHandler{
+class IllegalArgumentExceptionHandler{
 
-    @ExceptionHandler( BindException.class )
-    ModelAndView handle( BindException e ){
+    @ExceptionHandler( IllegalArgumentException)
+    ModelAndView handle( IllegalArgumentException e ){
         def m=new Model()
-        m.msg=e.allErrors*.defaultMessage
+        m.msg<<e.localizedMessage
         -m>>JSON
     }
 }

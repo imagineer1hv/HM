@@ -5,31 +5,42 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 @Entity
 @JsonIgnoreProperties( ['hibernateLazyInitializer','handler'] )
-class Notice{
+class Knowledge{
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
-    Long    id
+    Long   id
 
-    @Column( unique = true,length = 20 )
-    @Pattern( regexp = /[0-9a-zA-Z\u4e00-\u9fa5_-~`· ]{1,20}/,message = '项目名含有非法字符或长度不正确' )
-    String  name
+    @Column
+    String name
+    
+    @ManyToOne
+    Project project
+    
+    enum Category{
+        PROJECT,PUBLIC_WELFARE,SHARE
+    }
+    @Enumerated(value = EnumType.STRING)
+    @NotNull(message = '分类必须为PROJECT,PUBLIC_WELFARE,SHARE这三者之一')
+    Category category
 
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     Content content
 
-    Date publishAt
-
-    String getContextPath(){ "project/$id" }
+    String getContextPath(){ "knowledge/$id" }
 
     Map getContent(){
         def fl=[]
@@ -38,12 +49,16 @@ class Notice{
         }
         [id:id,
          name:name,
-         text:content.text,
+         category:category.toString(),
+         project:project?.info,
+         text:content?.text,
          files:fl]
     }
 
     Map getInfo(){
         [id:id,
+         category:category.toString(),
+         project:project?.info,
          name:name]
     }
 }
