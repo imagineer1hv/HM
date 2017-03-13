@@ -48,10 +48,9 @@ Temporary Items
 
 # 沈鸿飞忽略的文件
 .idea
-bak
-file
-lib
-production
+备份
+上传文件
+后端/lib
+后端/构建输出
 网站1.2
 槐盟.iml
-.gitignore
