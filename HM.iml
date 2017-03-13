@@ -25,8 +25,8 @@
         <fileset id="initializer config.DispatcherServletInitializer servlet context" name="MVC dispatcher initializer servlet context" removed="true" />
         <fileset id="initializer config.DispatcherServletInitializer root context" name="MVC dispatcher initializer root context" removed="true" />
         <fileset id="fileset" name="MyWebAppContext" removed="false">
-          <file>file://$MODULE_DIR$/后端/src/config/DispatcherServletInitializer.groovy</file>
-          <file>file://$MODULE_DIR$/后端/src/config/WebAppConfig.groovy</file>
+          <file>file://$MODULE_DIR$/server/src/config/DispatcherServletInitializer.groovy</file>
+          <file>file://$MODULE_DIR$/server/src/config/WebAppConfig.groovy</file>
         </fileset>
       </configuration>
     </facet>
