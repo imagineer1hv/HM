@@ -7,7 +7,7 @@ import ueditor.defination.ActionMap
 class UEditorConfig{
 
     static final String configFileName = "ueditor-config.json"
-    JSONObject configObj = null
+    JSONObject cfgObj = null
     // 涂鸦上传filename定义
     final static String SCRAWL_FILE_NAME = "scrawl"
     // 远程图片抓取filename定义
@@ -19,8 +19,8 @@ class UEditorConfig{
 
     UEditorConfig(){
         try{
-            String configContent = this.readConfigFile(new File(this.class.classLoader.getResource('ueditor/ueditor-config.json').toURI()))
-            configObj=new JSONObject(configContent)
+            String configContent = readConfigFile(new File(this.class.classLoader.getResource('ueditor/ueditor-config.json').toURI()))
+            cfgObj=new JSONObject(configContent)
         }catch(Exception e){
             e.printStackTrace()
         }
@@ -28,7 +28,7 @@ class UEditorConfig{
 
     // 验证配置文件加载是否正确
     boolean valid(){
-        return this.configObj!=null
+        return this.cfgObj!=null
     }
 
     Map<String,Object> getConfig(int type){
@@ -39,54 +39,54 @@ class UEditorConfig{
         switch(type){
             case ActionMap.UPLOAD_FILE:
                 conf.put("isBase64","false")
-                conf.put("maxSize",this.configObj.getLong("fileMaxSize"))
+                conf.put("maxSize",this.cfgObj.getLong("fileMaxSize"))
                 conf.put("allowFiles",this.getArray("fileAllowFiles"))
-                conf.put("fieldName",this.configObj.getString("fileFieldName"))
-                savePath=this.configObj.getString("filePathFormat")
+                conf.put("fieldName",this.cfgObj.getString("fileFieldName"))
+                savePath=this.cfgObj.getString("filePathFormat")
                 break
 
             case ActionMap.UPLOAD_IMAGE:
                 conf.put("isBase64","false")
-                conf.put("maxSize",this.configObj.getLong("imageMaxSize"))
+                conf.put("maxSize",this.cfgObj.getLong("imageMaxSize"))
                 conf.put("allowFiles",this.getArray("imageAllowFiles"))
-                conf.put("fieldName",this.configObj.getString("imageFieldName"))
-                savePath=this.configObj.getString("imagePathFormat")
+                conf.put("fieldName",this.cfgObj.getString("imageFieldName"))
+                savePath=this.cfgObj.getString("imagePathFormat")
                 break
 
             case ActionMap.UPLOAD_VIDEO:
-                conf.put("maxSize",this.configObj.getLong("videoMaxSize"))
+                conf.put("maxSize",this.cfgObj.getLong("videoMaxSize"))
                 conf.put("allowFiles",this.getArray("videoAllowFiles"))
-                conf.put("fieldName",this.configObj.getString("videoFieldName"))
-                savePath=this.configObj.getString("videoPathFormat")
+                conf.put("fieldName",this.cfgObj.getString("videoFieldName"))
+                savePath=this.cfgObj.getString("videoPathFormat")
                 break
 
             case ActionMap.UPLOAD_SCRAWL:
                 conf.put("filename",SCRAWL_FILE_NAME)
-                conf.put("maxSize",this.configObj.getLong("scrawlMaxSize"))
-                conf.put("fieldName",this.configObj.getString("scrawlFieldName"))
+                conf.put("maxSize",this.cfgObj.getLong("scrawlMaxSize"))
+                conf.put("fieldName",this.cfgObj.getString("scrawlFieldName"))
                 conf.put("isBase64","true")
-                savePath=this.configObj.getString("scrawlPathFormat")
+                savePath=this.cfgObj.getString("scrawlPathFormat")
                 break
 
             case ActionMap.CATCH_IMAGE:
                 conf.put("filename",REMOTE_FILE_NAME)
                 conf.put("filter",this.getArray("catcherLocalDomain"))
-                conf.put("maxSize",this.configObj.getLong("catcherMaxSize"))
+                conf.put("maxSize",this.cfgObj.getLong("catcherMaxSize"))
                 conf.put("allowFiles",this.getArray("catcherAllowFiles"))
-                conf.put("fieldName",this.configObj.getString("catcherFieldName")+"[]")
-                savePath=this.configObj.getString("catcherPathFormat")
+                conf.put("fieldName",this.cfgObj.getString("catcherFieldName")+"[]")
+                savePath=this.cfgObj.getString("catcherPathFormat")
                 break
 
             case ActionMap.LIST_IMAGE:
                 conf.put("allowFiles",this.getArray("imageManagerAllowFiles"))
-                conf.put("dir",this.configObj.getString("imageManagerListPath"))
-                conf.put("count",this.configObj.getInt("imageManagerListSize"))
+                conf.put("dir",this.cfgObj.getString("imageManagerListPath"))
+                conf.put("count",this.cfgObj.getInt("imageManagerListSize"))
                 break
 
             case ActionMap.LIST_FILE:
                 conf.put("allowFiles",this.getArray("fileManagerAllowFiles"))
-                conf.put("dir",this.configObj.getString("fileManagerListPath"))
-                conf.put("count",this.configObj.getInt("fileManagerListSize"))
+                conf.put("dir",this.cfgObj.getString("fileManagerListPath"))
+                conf.put("count",this.cfgObj.getInt("fileManagerListSize"))
                 break
 
         }
@@ -96,7 +96,7 @@ class UEditorConfig{
 
 
     String[] getArray(String key){
-        JSONArray jsonArray = this.configObj.getJSONArray(key)
+        JSONArray jsonArray = this.cfgObj.getJSONArray(key)
         String[] result = new String[jsonArray.length()]
         int len = jsonArray.length();
         for(int i = 0;i<len;i++){
@@ -110,7 +110,7 @@ class UEditorConfig{
         try{
             InputStreamReader reader = new InputStreamReader(new FileInputStream(configFile),"UTF-8")
             BufferedReader bfReader = new BufferedReader(reader)
-            String tmpContent = null
+            String tmpContent
             while((tmpContent=bfReader.readLine())!=null){
                 builder.append(tmpContent)
             }
@@ -126,7 +126,7 @@ class UEditorConfig{
     }
     
     static void main(String... args){
-        println new UEditorConfig().configObj
+        println new UEditorConfig().cfgObj
     }
 
 }

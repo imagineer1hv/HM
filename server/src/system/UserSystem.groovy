@@ -2,6 +2,7 @@ package system
 
 import com.google.code.kaptcha.impl.DefaultKaptcha
 import com.sun.istack.internal.Nullable
+import config.WebAppConfig
 import model.Model
 import model.User
 import org.apache.commons.lang3.StringUtils
@@ -178,6 +179,10 @@ class UserSystem{
     }
 
 //--------------------------------------------------------------------------------
+    
+    File getUserTmpDir(){
+        return new File(WebAppConfig.TMP_DIR,user.id.toString())
+    }
 
     private static void setCookie( HttpServletResponse resp,String name,String value,Integer maxAge ){
         Cookie cookie = new Cookie(name,value)

@@ -20,14 +20,13 @@ class UEditorSystem{
     @PostMapping('/ueditor/submit')
     ueditorSubmit(@RequestParam('content')String ct){
         m.content=ct
-        m>>'/ueditor-test.jsp'
+        m>>'/ueditor-html.jsp'
     }
     
     @RequestMapping('/ueditor')
     void ueditorAction(HttpServletRequest req,HttpServletResponse resp){
         resp.setHeader('Content-Type','text/html')
-        def s = new ActionEnter(req).exec()
-        resp.outputStream.println(new String(s))
+        resp.outputStream.println(new ActionEnter(req).exec())
         resp.flushBuffer()
     }
 }

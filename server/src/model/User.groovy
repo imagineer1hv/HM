@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern
 @JsonIgnoreProperties( ['hibernateLazyInitializer','handler'] )
 class User{
 
-    public static User   GUSET_USER = new User(username: 'Guest',role: Role.GUEST)
+    public static User   GUSET_USER = new User(id:0,username: 'Guest',role: Role.GUEST)
 
 
     @Id
@@ -88,6 +88,7 @@ class User{
         role = u.role
         autologin = u.autologin
     }
+    
 }
 
 /*    @OneToMany( mappedBy = 'author' )   @JsonIgnore      @OrderBy( 'modTime desc' )

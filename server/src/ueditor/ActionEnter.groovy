@@ -16,11 +16,13 @@ class ActionEnter{
     private HttpServletRequest request = null
     private String actionType = null
     private UEditorConfig config = null
+    File storeDir
 
-    ActionEnter(HttpServletRequest request){
+    ActionEnter(HttpServletRequest request,File storeDir){
         this.request=request
         this.actionType=request.getParameter("action")
         this.config=new UEditorConfig()
+        this.storeDir=storeDir
     }
 
     String exec(){
@@ -44,18 +46,19 @@ class ActionEnter{
         }
         State state = null
         int actionCode = ActionMap.getType(this.actionType)
-        Map<String,Object> conf=null
+        Map<String,Object> conf
 
         switch(actionCode){
 
             case ActionMap.CONFIG:
-                return this.config.configObj.toString()
-
+                storeDir.delete()
+                return this.config.cfgObj.toString()
+                
             case ActionMap.UPLOAD_IMAGE:
             case ActionMap.UPLOAD_SCRAWL:
             case ActionMap.UPLOAD_VIDEO:
             case ActionMap.UPLOAD_FILE:
-                state=new Uploader(request,config.getConfig(actionCode)).doExec()
+                state=new Uploader(request,config.getConfig(actionCode),storeDir).doExec()
                 break
 
             case ActionMap.CATCH_IMAGE:
