@@ -49,7 +49,7 @@ Temporary Items
 # 沈鸿飞忽略的文件
 .idea
 bak
-upfile
+file
 server/lib
 server/out
 网站1.2

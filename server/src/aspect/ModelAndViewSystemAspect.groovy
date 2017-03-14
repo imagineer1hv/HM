@@ -30,14 +30,14 @@ class ModelAndViewSystemAspect{
 
         switch(retVal?.getClass()){
             case String:
-                log(retVal,m)
-                return m>>retVal
+                log(retVal,null)
+                return retVal
             case Page:
                 log('page',retVal)
                 return retVal
             case Model:
-                log(JSON,m)
-                return m>>JSON
+                log(JSON,retVal)
+                return retVal>>JSON
             case null:
                 if(!m.isModified()) return null
                 log(JSON,m)

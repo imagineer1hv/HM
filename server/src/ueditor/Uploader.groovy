@@ -2,7 +2,6 @@ package ueditor
 
 import config.WebAppConfig
 import org.apache.commons.codec.binary.Base64
-import org.apache.commons.fileupload.FileItemStream
 import org.apache.commons.fileupload.FileUploadException
 import org.apache.commons.fileupload.disk.DiskFileItemFactory
 import org.apache.commons.fileupload.servlet.ServletFileUpload
@@ -16,14 +15,17 @@ import ueditor.defination.State
 import ueditor.util.StorageManager
 
 import javax.servlet.http.HttpServletRequest
+import java.nio.file.Path
 
 class Uploader {
 	private HttpServletRequest request = null
     private Map<String, Object> conf = null
+    File storeDir
 
-    Uploader(HttpServletRequest request,Map<String, Object> conf) {
+    Uploader(HttpServletRequest request,Map<String, Object> conf,File storeDir) {
 		this.request = request
         this.conf = conf
+        this.storeDir=storeDir
     }
 
     final State doExec() {
@@ -31,15 +33,14 @@ class Uploader {
         if ("true"==conf.get("isBase64")) {
 			state = Base64Uploader.save(request,conf)
         } else {
-			state = BinaryUploader.save(request, conf)
+			state = BinaryUploader.save(request, conf,storeDir)
         }
 		return state
     }
 
     class BinaryUploader {
 
-        static final State save(HttpServletRequest request,Map<String,Object> conf){
-            FileItemStream fileStream = null
+        static final State save(HttpServletRequest request,Map<String,Object> conf,File storeDir){
             boolean isAjaxUpload = request.getHeader( "X_Requested_With" ) != null
             if (!ServletFileUpload.isMultipartContent(request)) {
                 return new BaseState(false, AppInfo.NOT_MULTIPART_CONTENT)
@@ -57,13 +58,17 @@ class Uploader {
                 if (!validType(suffix, (String[]) conf.get("allowFiles"))) {
                     return new BaseState(false, AppInfo.NOT_ALLOW_FILE_TYPE)
                 }
-                File tf = new File(WebAppConfig.TMP_DIR,fn)
+                if(!storeDir.exists()){
+                    storeDir.mkdir()
+                }
+                File tf = new File(storeDir,fn)
                 if(tf.exists()) tf.delete()
                 f.transferTo(tf)
                 State st = new BaseState(true)
+                String relativePath = WebAppConfig.FILE_DIR.toPath().relativize(tf.toPath()).toString().replace('\\','/')
                 st.putInfo('size',tf.length())
                 st.putInfo('title',tf.name)
-                st.putInfo("url", "file/tmp/$fn")
+                st.putInfo("url", "file/$relativePath")
                 st.putInfo("type", suffix)
                 st.putInfo("original", fn)
                 return st
