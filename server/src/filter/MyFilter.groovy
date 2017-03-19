@@ -44,7 +44,10 @@ class MyFilter implements javax.servlet.Filter{
                 return
             }
         }
-
+        if(req.getHeader('Origin')){
+            resp.addHeader('Access-Control-Allow-Origin','null')
+            resp.addHeader('Access-Control-Allow-Credentials','true')
+        }
         chain.doFilter(request,response)
     }
 
