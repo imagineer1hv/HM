@@ -83,7 +83,7 @@
                         
                     </div>
                 </div>
-                 <div class="footer">
+                <div class="footer">
                     <div class="link">
                         <span class="item"><a href="#">关于我们</a> - <a href="#">联系我们</a> - <a href="#">English</a></span>
                     </div>
@@ -91,20 +91,28 @@
                 </div>
 
 
-         </div>
-     </div>
- </div>
- <script type="text/javascript">
- $(document).ready(function(){
-    $.ajax({
-        type:'get',
-        url:'',
-        success:function(msg){
-            $("#introduction").html(msg);
-        }
-    })
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+       $(document).ready(function(){
+        $.ajax({
+            url:'introduction',
+            method:'GET',
+            success:function(model){
+                if(!model|| !model.result){
+                    alert(model?model.msg:'unknown error');
+                    return;
+                }
+                alert(model.content);
+                $('#introduction').html(model.content);
+            },
+            error:function(jqXHR,textStatus){
+                alert('ajax GET request failed\n'+textStatus);
+            }
+        });
 
- });
+    });
 </script>
 
 </body>
