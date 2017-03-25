@@ -1,16 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>了解我们</title>
     <link rel="stylesheet" href="css/icon.min.css">
     <link rel="stylesheet" href="css/m_introduction.css">
     <script src="js/jquery.js"></script>
-    <script src="semantic/semantic.js" ></script>
+    <script src="semantic/semantic.js"></script>
     <!--添加富文本框-->
     <script src="ueditor/ueditor.config.js"></script>
     <script src="ueditor/ueditor.all.js"></script>
     <script src="ueditor/lang/zh-cn/zh-cn.js"></script>
+    <style type="text/css">
+        #introduction {
+            position: relative;
+            overflow: hidden;
+        }
+        #introduction img{
+            display: inline-block; 
+            max-width: 50%;
+        }
+    </style>
 </head>
 <body>
     <div class="view-container">
@@ -30,22 +40,22 @@
                                 </div>
                                 <div class="phone-hidden">
                                     <li class="nav-item">
-                                        <a  herf="#">
+                                        <a herf="#">
                                             首页
                                         </a>
                                     </li>
                                     <li class="nav-item active">
-                                        <a  herf="#">
+                                        <a herf="#">
                                             了解我们
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a  herf="#">
+                                        <a herf="#">
                                             活动
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a  herf="#">
+                                        <a herf="#">
                                             科普知识
                                         </a>
                                     </li>
@@ -92,10 +102,10 @@
                     <div id="introduction">
 
                     </div>
-                    <form action="" method="post">
+                    <form>
                         <script id="editor" name="content" type="text/plain">
                         </script>
-                        <button class="button" onclick="submitIntroduction();">确定</button>
+                        <button class="button" onclick="submitIntroduction()">确定</button>
                     </form>
 
                 </div>
@@ -113,56 +123,76 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-            // 直接交互，显示出来结果
+        // 直接交互，显示出来结果
+        $.ajax({
+            url:'introduction',
+            method:'GET',
+            success:function(model){
+                if(!model|| !model.result){
+                    alert(model?model.msg:'unknown error');
+                    return;
+                }
+                //alert(model.content);
+                $('#introduction').html(model.content);
+            },
+            error:function(jqXHR,textStatus){
+                alert('ajax GET request failed\n'+textStatus);
+            }
+        });
+        $("#add").click(function(){
+            // 富文本框
             $.ajax({
                 url:'introduction',
-                method:'GET',
-                success:function(model){
-                    if(!model|| !model.result){
-                        alert(model?model.msg:'unknown error');
-                        return;
-                    }
-                    alert(model.content);
-                    $('#introduction').html(model.content);
-                },
-                error:function(jqXHR,textStatus){
-                    alert('ajax GET request failed\n'+textStatus);
+                method:'GET'
+            }).fail(function(jqXHR,textStatus){
+                alert('ajax GET request failed\n'+textStatus);
+            }).done(function(model){
+                if(!model||!model.result){
+                    alert(model?model.msg:'unknown error');
+                    return;
                 }
+                //alert(model.content);
+                UE.getEditor('editor').setContent(model.content);
             });
-            $("#add").click(function () {
-                $("#add").css("display","none");
-                $("#cancel").css("display","block");
-                $("button").css("display","block");
-                UE.getEditor('editor').setShow();
-            });
+            $("#introduction").css("display","none");
+            $("#add").css("display","none");
+            $("#cancel").css("display","block");
+            $("button").css("display","block");
+            UE.getEditor('editor',{serverUrl:'/HM/introduction/edit'}).setShow();
+        });
 
 
-            $("#cancel").click(function () {
-                $("#add").css("display","block");
-                $("#cancel").css("display","none");
-                $("button").css("display","none");
-                UE.getEditor('editor').setHide();
-            });
-            function submitIntroduction(){
-             $.ajax({
-                method: 'POST',
-                url: 'introduction',
-                data: {content:UE.getEditor('editor').getContent()},
-                success:function(model){
-                    if(!model||!model.result){
-                        alert(model?model.msg:'unknown error');
-                        return;
-                    }
-                    alert('上传成功\nresult:'+model.result+'\nmsg:'+model.msg+'\ncontent:'+model.content+'\n返回的model.content就是ueditor中的内容');
-                },
-                error:function(jqXHR,textStatus){
-                    alert('ajax POST request failed\n'+textStatus);
-                }});
-         }
-        // 富文本框
-        UE.getEditor('editor',{serverUrl:'/HM/introduction/edit'});
-        
+        $("#cancel").click(function(){
+            $("#introduction").css("display","block");
+            $("#add").css("display","block");
+            $("#cancel").css("display","none");
+            $("button").css("display","none");
+            UE.getEditor('editor',{serverUrl:'/HM/introduction/edit'}).setHide();
+        });
+
     });
+    function submitIntroduction(){
+        alert(UE.getEditor('editor',{serverUrl:'/HM/introduction/edit'}).getContent());
+        $.ajax({
+            method:'POST',
+            url:'introduction',
+            data:{content:UE.getEditor('editor').getContent()},
+            success:function(model){
+                if(!model|| !model.result){
+                    alert(model?model.msg:'unknown error');
+                    return;
+                }
+                alert('上传成功');
+            },
+            error:function(jqXHR,textStatus){
+                alert('ajax POST request failed\n'+textStatus);
+            }
+        });
+        location.reload();
+    }
+
+
+        
 
 
 </script>
