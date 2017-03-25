@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length
 import org.springframework.format.annotation.DateTimeFormat
 
 import javax.persistence.*
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Past
 import javax.validation.constraints.Pattern
 
@@ -22,7 +23,7 @@ class User{
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     Long   id
 
-    @Column( unique = true,length = 20 )
+    @Column(length = 20 )
     @Pattern( regexp = /[0-9a-zA-Z\u4e00-\u9fa5_-~`·]{1,20}/,message = '用户名含有非法字符或长度不正确' )
     String username
 
@@ -48,7 +49,7 @@ class User{
 
     Date    registerTime
 
-    @Column( length = 30 )
+    @Column( length = 30 ,unique = true)
     @Email
     String  email
 
@@ -68,6 +69,9 @@ class User{
     String  lastIp
 
     Boolean autologin = false
+    
+    @Column(length=40)
+    String resetKey
 
 
     @Override

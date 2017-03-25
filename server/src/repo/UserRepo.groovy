@@ -11,4 +11,6 @@ interface UserRepo extends JpaRepository<User,Long>{
 
     User findByUsername(String username)
     User findByCookieId(String cookieId)
+    User findByEmail(String email)
+    User findById(Long id)
 }
