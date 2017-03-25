@@ -12,6 +12,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy
 import org.springframework.core.io.FileSystemResource
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.data.web.config.EnableSpringDataWebSupport
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
@@ -45,6 +47,8 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
     static File FILE_DIR
     static File TMP_DIR
     static File INTRODUCTION_DIR
+    static String RESET_EMAIL_TEMPLATE=this.getClassLoader().getResource('reset-email.html').getText('UTF-8')
+    
 /*    static final File ueditorConfigFile=new File(WebAppConfig.class.getClassLoader().getResource('ueditor-config.json').toURI())
     static final Map ueditorConfig=new ObjectMapper().configure(JsonParser.Feature.ALLOW_COMMENTS,true).readValue(ueditorConfigFile,Map.class)*/
 
@@ -61,6 +65,7 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
         if(!TMP_DIR.exists()) TMP_DIR.mkdir()
         INTRODUCTION_DIR=new File(FILE_DIR,'introduction')
         if(!INTRODUCTION_DIR.exists()) INTRODUCTION_DIR.mkdir()
+        
     }
 
 //  数据库及事务
@@ -160,8 +165,28 @@ class WebAppConfig extends WebMvcConfigurerAdapter{
         kaptcha.config=new Config(new Properties())
         kaptcha
     }
+    
+//    邮件
+    @Bean
+    JavaMailSenderImpl getJavaMailSenderImpl(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl()
+        mailSender.host='smtp.qq.com'
+        mailSender.port=465//端口号，QQ邮箱需要使用SSL，端口号465或587
+        mailSender.username='350986489'
+        mailSender.password='pniljmfgcgzobiij'
+        mailSender.defaultEncoding='UTF-8'
+        mailSender.javaMailProperties=[
+                'mail.smtp.timeout':25000,
+                'mail.smtp.auth':true,
+                'mail.smtp.starttls.enable':true,//STARTTLS是对纯文本通信协议的扩展。它提供一种方式将纯文本连接升级为加密连接（TLS或SSL）
+                'mail.smtp.socketFactory.port':465,
+                'mail.smtp.socketFactory.class':'javax.net.ssl.SSLSocketFactory',
+                'mail.smtp.socketFactory.fallback':false,
+        ] as Properties
+        mailSender
+    }
 
     static void main(String... args){
-        
+        println RESET_EMAIL_TEMPLATE
     }
 }

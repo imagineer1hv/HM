@@ -6,14 +6,9 @@
 [大连高校环境联盟-百度百科](http://baike.baidu.com/link?url=VhFPgFwxN_0WM8DWqC9YEGVTLZsLpFmHSPlwEIb-g4IUESdx3CdnKhZ-rlQHtzi2qMhNiWunTaqiviOzQXqJkdi1YR32bL0sECsj2UJtIMW1x2Sig6Fg2xXBhooWa1yNb2WNoWSZwFKcpdrKx932fLYaoIl01Gbkt3p5LIAhrWayhrr4vITOzAFIlx1VHeQs)
 
 ---
-##最新API本地查看
-打开 web/API-Test.html
-
----
 
 ##后端接口地址
 [http://45.78.7.182/HM](http://45.78.7.182/HM)  
-注：可能不是最新版
----
-###UEditor完整Demo
-打开 web/ueditor/index.html
+其它网页访问方法
+http://45.78.7.182/HM/{html文件名}
+

@@ -34,7 +34,7 @@
         </select>
       </label><br>
       <label>birthday：<input name="birthday" type="date"></label><br>
-      <label>email：<input name="email"></label><br>
+      <label>*email：<input name="email"></label><br>
       <label>address：<input name="address"></label><br>
       <label>phoneNumber：<input name="phoneNumber"></label><br>
 
@@ -51,7 +51,7 @@
     <h2>POST user/login</h2>
     <p>user/verificationCode.jpg?category=login<img src="user/verificationCode.jpg?category=login"/> </p>
     <form action="user/login" method="post">
-      <label>username：<input name="username"></label><br>
+      <label>email：<input name="email"></label><br>
       <label>password：<input name="password"></label><br>
       <label>verificationCode：<input name="verificationCode"></label><br>
       <label>autologin：<input type="checkbox" name="autologin"></label><br>
@@ -62,6 +62,14 @@
       autologin：根据上次登录IP及cookieId判断，（同一浏览器同一IP）
     </pre>
 
+
+    <br><br><hr>
+    <h2>忘记密码</h2>
+    <h2>POST user/reset-email</h2>
+    <form action="user/reset-email" method="post">
+        <label>email:<input name="email"></label><br>
+        <input type="submit" value="发送邮件">
+    </form><br><br>
 
 
     <br><br><hr>
