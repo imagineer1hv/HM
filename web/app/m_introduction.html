@@ -134,7 +134,7 @@
                 $("#cancel").css("display","block");
                 $("button").css("display","block");
                 UE.getEditor('editor').setShow();
-            }
+            });
 
 
             $("#cancel").click(function () {
@@ -142,7 +142,7 @@
                 $("#cancel").css("display","none");
                 $("button").css("display","none");
                 UE.getEditor('editor').setHide();
-            }
+            });
             function submitIntroduction(){
              $.ajax({
                 method: 'POST',
